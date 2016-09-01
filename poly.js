@@ -24,7 +24,7 @@ class Poly {
 		ctx.beginPath();
 		ctx.moveTo(this.v[l-1][0],this.v[l-1][1]);
 		for (var i=0;i<l;i++) {
-			ctx.fillStyle = (i==c ? hold_color : (colliding ? collide_color : color));
+			ctx.fillStyle = (i==c ? hold_color : (this.colliding ? collide_color : color));
 			ctx.fillRect(this.v[i][0]-1,this.v[i][1]-1,3,3);
 			ctx.lineTo(this.v[i][0],this.v[i][1]);
 		}
@@ -92,5 +92,6 @@ class Poly {
 	
 	constructor() {
 		this.v=[];
+		this.colliding=false;
 	}
 }

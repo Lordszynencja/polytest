@@ -1,12 +1,7 @@
 
-var closest_t=-1;
-var closest_v=-1;
 var holding=false;
-var x=0;
-var y=0;
-var vleft=1;
-var b=false;
-var colliding=false;
+//var vleft=1;
+//var b=false;
 
 function init() {
 	polies[0]=new Poly();
@@ -17,38 +12,6 @@ function init() {
 	polies[1].add([[500,350],[520,300],[520,250],[700,230],[650,230],[350,230],[300,230],[480,250],[480,300]]);
 	polies[2].add([[50,50],[100,50],[150,50],[200,50]]);
 	polies[3].add([[50,50],[50,100],[50,150],[50,200]]);
-}
-
-function bulletCollide(v) {
-	var i;
-	var l=v.length;
-	var collided=false;
-	var leftx=vx*vleft;
-	var lefty=vy*vleft;
-	for (i=0;i<l;i++) {
-		var x1=v[i][0];
-		var y1=v[i][1];
-		var x2=v[(i+1)%l][0];
-		var y2=v[(i+1)%l][1];
-		var ver1=[[x1,y1],[x2,y2]];
-		var ver2=[[bx,by],[bx+leftx,by+lefty]];
-		var cr=cross(ver1,ver2);
-		if (cr!==false) {
-			var distance=(cr[0]-bx)/leftx;
-			var ang1=angle(vx,vy);
-			var ang2=angle(x2-x1,y2-y1);
-			var ang=2*(ang2-ang1);
-			var newvx=(Math.cos(ang)*vx-Math.sin(ang)*vy)*boing_factor;
-			var newvy=(Math.sin(ang)*vx+Math.cos(ang)*vy)*boing_factor;
-			vx=newvx;
-			vy=newvy;
-			vleft-=distance;
-			bx=cr[0]+0.01*vx;
-			by=cr[1]+0.01*vy;
-			collided=true;
-		}
-	}
-	return collided;
 }
 
 function update() {
@@ -67,20 +30,22 @@ function update() {
 	if (down) {
 		for (i=0;i<l;i++) polies[0].v[i][1]++;
 	}
-	/*if (space) {
-		bx=polies[0].v[0][0];
-		by=polies[0].v[0][1];
-		vx=starting_speed[0];
-		vy=starting_speed[1];
-		b=false;
-	}*/
+	if (space && bullets.length<1) {
+		console.log(1);
+		bullets.push(new Bullet(polies[0].v[0][0],polies[0].v[0][1],0,-5));
+		console.log([polies[0].v[0][0],polies[0].v[0][1],0,-5]);
+	}
 	if (holding && closest_t!=-1) {
-		polies[closest_t].v[closest_v]=[x,y];
+		polies[closest_t].v[closest_v]=[mx,my];
+	}
+	for (i=0;i<bullets.length;i++) {
+		bullets[i].update();
 	}
 	//colliding=collide(v1,v2);
 }
 
 var draw=function() {
+	var i;
 	ctx.fillStyle='#111111';
 	ctx.fillRect(0,0,800,600);
 	for (var i=0;i<polies.length;i++) polies[i].draw((i==closest_t ? closest_v : -1));
@@ -88,6 +53,9 @@ var draw=function() {
 		var poly=new Poly();
 		poly.add(polies[i].convex());
 		poly.drawWithColor('#0000FF');
+	}
+	for (i=0;i<bullets.length;i++) {
+		bullets[i].draw();
 	}
 	requestAnimationFrame(draw);
 }

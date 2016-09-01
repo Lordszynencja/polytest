@@ -9,12 +9,17 @@ var canvas=document.getElementById("canv");
 var ctx=canvas.getContext("2d");
 var time=0;
 var polies=[];
+var bullets=[];
+var closest_t=-1;
+var closest_v=-1;
 
 var up=false;
 var down=false;
 var left=false;
 var right=false;
 var space=false;
+var mx=0;
+var my=0;
 
 document.onmousedown=function(e) {
 	holding=true;
@@ -23,13 +28,13 @@ document.onmousedown=function(e) {
 	var r=canvas.getBoundingClientRect();
 	var tx=e.clientX-r.left;
 	var ty=e.clientY-r.top;
-	if (x<0 || x>canvas.width || y<0 || y>canvas.height) return 0;
-	x=tx;
-	y=ty;
+	if (mx<0 || mx>canvas.width || my<0 || my>canvas.height) return 0;
+	mx=tx;
+	my=ty;
 	for (i=0;i<polies.length;i++) {
 		for (j=0;j<polies[i].v.length;j++) {
-			var xd=polies[i].v[j][0]-x;
-			var yd=polies[i].v[j][1]-y;
+			var xd=polies[i].v[j][0]-mx;
+			var yd=polies[i].v[j][1]-my;
 			if (xd*xd+yd*yd<dist) {
 				closest_t=i;
 				closest_v=j;
@@ -49,8 +54,8 @@ document.onmousemove=function(e) {
 	var tx=e.clientX-r.left;
 	var ty=e.clientY-r.top;
 	if (tx<0 || tx>canvas.width || ty<0 || ty>canvas.height) return 0;
-	x=tx;
-	y=ty;
+	mx = tx;
+	my = ty;
 }
 
 document.onkeydown=function(e) {
