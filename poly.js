@@ -6,7 +6,7 @@ function BubblesortByPolarAngle(t,p) {
 	for (i=1;i<l;i++) {
 		swapped=false;
 		for (j=0;j<l-i;j++) {
-			if (crossProduct(p,t[j],t[j+1])<0) {
+			if (crossProduct(p,t[j],t[j+1])<=0) {
 				var swap=t[j];
 				t[j]=t[j+1];
 				t[j+1]=swap;
@@ -58,20 +58,26 @@ class Poly {
 		var hull = [this.v[best]];
 		var others = this.v.slice(0,best).concat(this.v.slice(best+1,l));
 		others=hull.concat(BubblesortByPolarAngle(others,hull[0]));
-		for (var i=1;i<others.length;i++) {
-			while (i<others.length-1 && crossProduct(hull[0],others[i],others[i+1])==0) i++;
-			others[m] = others[i];
+		for (var i=0;i<others.length;i++) {
+			var best=i;
+			while (i<others.length-1 && crossProduct(hull[0],others[best],others[i+1])==0) {
+				i++;
+				if (dist(others[i],hull[0])>=dist(others[best],hull[0])) {
+					best = i;
+				}
+			}
+			others[m] = others[best];
 			m++;
 		}
 		others = others.slice(0,m);
-		hull[1]=others[0];
-		hull[2]=others[1];
+		hull[1]=others[1];
 		for (var i=2;i<others.length;i++) {
 			while (crossProduct(hull[hull.length-2],hull[hull.length-1],others[i])<=0) {
 				if (hull.length>2) hull.length--;
-				else i++;
+				else if (i<others.length-1) i++;
+				else break;
 			}
-			hull.push(others[i]);
+			hull.push([others[i][0],others[i][1]]);
 		}
 		return hull;
 	}
