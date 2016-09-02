@@ -25,16 +25,16 @@ function update() {
 	if (down) {
 		for (i=0;i<l;i++) polies[0].v[i][1]++;
 	}
-	if (space && bullets.length<1) {
-		console.log(1);
+	if (space) {
 		bullets.push(new Bullet(polies[0].v[0][0],polies[0].v[0][1],0,-5));
 	}
-	if (holding && closest_t>=0 && closest_t<l) {
+	if (holding && closest_t>=0 && closest_t<polies.length) {
 		polies[closest_t].v[closest_v]=[mx,my];
 	}
 	for (i=0;i<bullets.length;i++) {
 		bullets[i].update();
 	}
+	for ()
 	//colliding=collide(v1,v2);
 }
 

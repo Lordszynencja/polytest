@@ -63,3 +63,7 @@ function cross(l1,l2) {
 	}
 	return false;
 }
+
+function collide(v1,v2) {
+	
+}
