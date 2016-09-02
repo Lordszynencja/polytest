@@ -2,10 +2,10 @@
 
 function MergeSortByPolarAngle(t,p) {
 	if (t.length<2) return t;
-	var l1 = t.length/2;
-	var l2 = t.length-l1;
-	var t1 = MergeSortByPolarAngle(t.slice(0,l1),p);
-	var t2 = MergeSortByPolarAngle(t.slice(l1,l2),p);
+	var t1 = MergeSortByPolarAngle(t.slice(0,t.length/2),p);
+	var t2 = MergeSortByPolarAngle(t.slice(t.length/2),p);
+	var l1 = t1.length;
+	var l2 = t2.length;
 	var r = [];
 	var i = 0;
 	var j = 0;
