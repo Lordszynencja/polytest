@@ -1,5 +1,9 @@
 //Poly class
 
+function MergeSortByPolarAngle(t,p) {
+	return t;
+}
+
 function BubblesortByPolarAngle(t,p) {//TODO: better sorting
 	var l=t.length;
 	var i,j,swapped;
