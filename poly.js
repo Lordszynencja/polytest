@@ -1,7 +1,30 @@
 //Poly class
 
 function MergeSortByPolarAngle(t,p) {
-	return t;
+	if (t.length<2) return t;
+	var t1 = MergeSortByPolarAngle(t.slice(0,t.length/2),p);
+	var t2 = MergeSortByPolarAngle(t.slice(t.length/2),p);
+	var l1 = t1.length;
+	var l2 = t2.length;
+	var r = [];
+	var i = 0;
+	var j = 0;
+	while (i<l1 && j<l2) {
+		if (crossProduct(p,t1[i],t2[j])>=0) {
+			r[i+j] = t1[i];
+			i++;
+		} else {
+			r[i+j] = t2[j];
+			j++;
+		}
+	}
+	for (;i<l1;i++) {
+		r[i+j] = t1[i];
+	}
+	for (;j<l2;j++) {
+		r[i+j] = t2[j];
+	}
+	return r;
 }
 
 function BubblesortByPolarAngle(t,p) {//TODO: better sorting
@@ -61,7 +84,7 @@ class Poly {
 		var best = this.findLowestY();
 		var hull = [this.v[best]];
 		var others = this.v.slice(0,best).concat(this.v.slice(best+1,l));
-		others=hull.concat(BubblesortByPolarAngle(others,hull[0]));
+		others=hull.concat(MergeSortByPolarAngle(others,hull[0]));
 		for (var i=0;i<others.length;i++) {
 			var best=i;
 			while (i<others.length-1 && crossProduct(hull[0],others[best],others[i+1])==0) {

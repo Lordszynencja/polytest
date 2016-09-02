@@ -18,6 +18,7 @@ var down=false;
 var left=false;
 var right=false;
 var space=false;
+var holding=false;
 var mx=0;
 var my=0;
 

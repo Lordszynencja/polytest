@@ -1,8 +1,3 @@
-
-var holding=false;
-//var vleft=1;
-//var b=false;
-
 function init() {
 	polies[0]=new Poly();
 	polies[1]=new Poly();
@@ -33,9 +28,8 @@ function update() {
 	if (space && bullets.length<1) {
 		console.log(1);
 		bullets.push(new Bullet(polies[0].v[0][0],polies[0].v[0][1],0,-5));
-		console.log([polies[0].v[0][0],polies[0].v[0][1],0,-5]);
 	}
-	if (holding && closest_t!=-1) {
+	if (holding && closest_t>=0 && closest_t<l) {
 		polies[closest_t].v[closest_v]=[mx,my];
 	}
 	for (i=0;i<bullets.length;i++) {
@@ -45,8 +39,9 @@ function update() {
 }
 
 var draw=function() {
+	requestAnimationFrame(draw);
 	var i;
-	ctx.fillStyle='#111111';
+	ctx.fillStyle='#999999';
 	ctx.fillRect(0,0,800,600);
 	for (var i=0;i<polies.length;i++) polies[i].draw((i==closest_t ? closest_v : -1));
 	for (var i=0;i<polies.length;i++) {
@@ -57,7 +52,6 @@ var draw=function() {
 	for (i=0;i<bullets.length;i++) {
 		bullets[i].draw();
 	}
-	requestAnimationFrame(draw);
 }
 
 init();
