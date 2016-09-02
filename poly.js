@@ -27,24 +27,6 @@ function MergeSortByPolarAngle(t,p) {
 	return r;
 }
 
-function BubblesortByPolarAngle(t,p) {//TODO: better sorting
-	var l=t.length;
-	var i,j,swapped;
-	for (i=1;i<l;i++) {
-		swapped=false;
-		for (j=0;j<l-i;j++) {
-			if (crossProduct(p,t[j],t[j+1])<=0) {
-				var swap=t[j];
-				t[j]=t[j+1];
-				t[j+1]=swap;
-				swapped=true;
-			}
-		}
-		if (!swapped) i=l;
-	}
-	return t;
-}
-
 class Poly {
 	draw(c) {
 		var l=this.v.length;
