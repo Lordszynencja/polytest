@@ -19,6 +19,12 @@ function crossProduct(p1,p2,p3) {
 	return (p2[0]-p1[0])*(p3[1]-p1[1])-(p2[1]-p1[1])*(p3[0]-p1[0]);
 }
 
+function dist(p1,p2) {
+	var dx = p1[0]-p2[0];
+	var dy = p1[1]-p2[1];
+	return Math.sqrt(dx*dx+dy*dy);
+}
+
 function cross(l1,l2) {
 	var dx1=l1[1][0]-l1[0][0];
 	var dy1=l1[1][1]-l1[0][1];
