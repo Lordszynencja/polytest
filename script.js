@@ -1,8 +1,3 @@
-
-var holding=false;
-//var vleft=1;
-//var b=false;
-
 function init() {
 	polies[0]=new Poly();
 	polies[1]=new Poly();
