@@ -64,6 +64,79 @@ function cross(l1,l2) {
 	return false;
 }
 
-function collide(v1,v2) {
-	
+function collide(v1,v2) {//v1 & v2 must be convex hulls with vertices in order
+	var i,s,s1;
+	var l1=v1.length;
+	var l2=v2.length;
+               
+	for (s=0;s<l1;s++) {
+		var s1 = (s+1)%l1;
+		var x1 = v1[s][0];
+		var x2 = v1[s1][0];
+		var y1 = v1[s][1];
+		var y2 = v1[s1][1];
+		var sfun;
+		var tan;
+		if (y1 == y2) {
+			sfun = shadow2;
+			tan = 0;
+		} else {	
+			sfun = shadow;
+			tan = (x2-x1)/(y2-y1);
+		}
+		var max = sfun(v1[0],tan);
+		var min = max;
+	  
+		for (i=1;i<l1;i++) {
+			var val = sfun(v1[i],tan);
+			if (val<min) min = val;
+			else if (val>max) max = val;
+		}
+	  
+		var on_left = false;
+		var on_right = false;
+	  
+		for (i=0;i<l2;i++) {
+			var val = sfun(v2[i],tan);
+			if (val>=min) on_right = true;
+			if (val<=max) on_left = true;
+		}
+		if (!on_left || !on_right) return false;
+	}
+               
+	for (s=0;s<l2;s++) {
+		var s1 = (s+1)%l2;
+		var x1 = v2[s][0];
+		var x2 = v2[s1][0];
+		var y1 = v2[s][1];
+		var y2 = v2[s1][1];
+		var sfun;
+		var tan;
+		if (y1 == y2) {
+			sfun = shadow2;
+			tan = 0;
+		} else {	
+			sfun = shadow;
+			tan = (x2-x1)/(y2-y1);
+		}
+		var max = sfun(v2[0],tan);
+		var min = max;
+	  
+		for (i=1;i<l2;i++) {
+			var val = sfun(v2[i],tan);
+			if (val<min) min = val;
+			else if (val>max) max = val;
+		}
+	  
+		var on_left = false;
+		var on_right = false;
+	  
+		for (i=0;i<l1;i++) {
+			var val = sfun(v1[i],tan);
+			if (val>=min) on_right = true;
+			if (val<=max) on_left = true;
+		}
+		if (!on_left || !on_right) return false;
+	}
+	return true;
 }

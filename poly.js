@@ -60,7 +60,7 @@ class Poly {
 		return best;
 	}
 	
-	convex() {
+	generateConvex() {
 		var l = this.v.length;
 		var m = 1;
 		var best = this.findLowestY();
@@ -92,15 +92,36 @@ class Poly {
 	}
 	
 	add(v) {
-		this.v=this.v.concat(v);
+		this.v = this.v.concat(v);
+		this.hasConvex = false;
 	}
 	
 	delete(l) {
-		this.v=this.v.slice(0,this.v.length-l);
+		this.v = this.v.slice(0,this.v.length-l);
+		this.hasconvex = false;
+	}
+	
+	set(n,x,y) {
+		this.v[n] = [x,y];
+		this.hasConvex = false;
+	}
+	
+	setConvex(v) {
+		this.c = v;
+		this.hasConvex = true;
+	}
+	
+	convex() {
+		if (this.hasConvex) return this.c;
+		this.c = [this.generateConvex()];
+		this.hasConvex = true;
+		return this.c;
 	}
 	
 	constructor() {
-		this.v=[];
-		this.colliding=false;
+		this.v = [];
+		this.c = [];
+		this.hasConvex = false;
+		this.colliding = false;
 	}
 }
